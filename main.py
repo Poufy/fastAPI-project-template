@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, status, Response
 from enum import Enum
 from typing import Optional
 
@@ -18,6 +18,16 @@ def greet():
 @app.get('/greet/{name}')
 def greet(name: str):
     return {'message': f'Hello {name}! How are you doing today?'}
+
+
+@app.get('/blog/{id}', status_code=status.HTTP_200_OK)
+def get_blog(id: int, response: Response):
+    if id > 5:
+        response.status_code = status.HTTP_404_NOT_FOUND
+        return {'error': f'Blog with id: {id} not found'}
+    else:
+        return {'message': f'Blog id is {id}'}
+
 
 # Predefined path parameters
 class BlogType(str, Enum):
