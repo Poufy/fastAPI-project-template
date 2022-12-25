@@ -10,7 +10,7 @@ def index():
     return {'message': 'Hello World!'}
 
 # Order of the routes matter. The first route that matches the request will be executed. so if you have a route that matches any path, it should be the last route in the file.
-@app.get('/greet/anyone')
+@app.get('/greet/anyone', summary='Greet everyone', description='This is a description for the greet everyone route')
 def greet():
     return {'message': 'Hello everyone!'}
 
