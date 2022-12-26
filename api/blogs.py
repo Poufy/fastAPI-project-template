@@ -43,6 +43,8 @@ def get_blog_comment(id: int, comment_id: int, valid: bool = True, username: Opt
 
 # Post operations
 # Notice we have automatic type validation and automatic conversion of the request body from JSON to a python object that we declared in the models folder.
-@router.post('/new', status_code=status.HTTP_201_CREATED)
-def create_blog(blog: blogs.BlogModel):
-    return {'data': blog}
+# The parameter that inherits from BaseModel is automatically converted to a python object and is then validated against the model and if it fails, it returns a 422 error. Also, that parameter is expected to be in the request body.
+@router.post('/new/{id}', status_code=status.HTTP_201_CREATED)
+def create_blog(blog: blogs.BlogModel, id: int, version: int = 1):
+    return {'id': id, 'data': blog, 'version': version}
+
