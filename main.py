@@ -1,10 +1,11 @@
 from fastapi import FastAPI
-from api import blogs, greet
+from api import blogs
+from api import greet
 
 app = FastAPI()
 
-app.include_router(blogs.blogsRouter)
-app.include_router(greet.greetRouter)
+app.include_router(blogs.router)
+app.include_router(greet.router)
 
 @app.get('/')
 def index():
