@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Response, status
+from fastapi import APIRouter, Response, status, Query
 from enum import Enum
 from typing import Optional
 from models import blogs
@@ -48,3 +48,16 @@ def get_blog_comment(id: int, comment_id: int, valid: bool = True, username: Opt
 def create_blog(blog: blogs.BlogModel, id: int, version: int = 1):
     return {'id': id, 'data': blog, 'version': version}
 
+
+@router.post('/new/{id}/comment')
+def create_comment(blog: blogs.BlogModel, id: int, 
+                   comment_id: int = Query(None, 
+                                           title='Comment Id', 
+                                           description='Some desc'
+                                           )
+                   ):
+    return {
+        'body': blog,
+        'id': id,
+        'comment_id': comment_id
+    }
