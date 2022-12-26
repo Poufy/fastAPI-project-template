@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Response, status, Query
+from fastapi import APIRouter, Response, status, Query, Body
 from enum import Enum
 from typing import Optional
 from models import blogs
@@ -49,15 +49,19 @@ def create_blog(blog: blogs.BlogModel, id: int, version: int = 1):
     return {'id': id, 'data': blog, 'version': version}
 
 
+# "content" is not a required parameter. If it is not provided, it will use the default value. To make it required, make it like so: content: str = Body(...) or str = Body(Elipsis)
 @router.post('/new/{id}/comment')
 def create_comment(blog: blogs.BlogModel, id: int, 
                    comment_id: int = Query(None, 
                                            title='Comment Id', 
                                            description='Some desc'
-                                           )
+                                           ),
+                   content: str = Body(..., min_length=10, max_length=50, regex='^[a-z\s]*$') 
                    ):
     return {
         'body': blog,
         'id': id,
-        'comment_id': comment_id
+        'comment_id': comment_id,
+        'content': content
     }
+    
