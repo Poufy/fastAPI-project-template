@@ -1,6 +1,5 @@
 from fastapi import FastAPI
-from api import blogs
-from api import greet
+from api import blogs, greet
 
 app = FastAPI()
 

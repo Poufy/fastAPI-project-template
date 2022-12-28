@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Response, status, Query, Body, Path
+from fastapi import APIRouter, Response, status, Query, Body, Path, Depends
 from enum import Enum
 from typing import Optional
 from models import blogs
@@ -6,6 +6,9 @@ from models import blogs
 ## write an import line that imports the blogs model from the models folder
 
 router = APIRouter(prefix='/blog', tags=['Blog'])
+
+def required_functionality():
+    return {'message': 'This is required functionality'}
 
 @router.get('/{id}', status_code=status.HTTP_200_OK)
 def get_blog(id: int, response: Response):
@@ -28,8 +31,8 @@ def get_blog_Type(type: BlogType):
 # Query parameters. All the query parameters are optional.
 # The function parameter name should match the query parameter name.
 @router.get('/all/')
-def get_all_blogs(page=1, page_size=20):
-    return {'message': f'Page: {page}, Page Size: {page_size}'}
+def get_all_blogs(page=1, page_size=20, req_parameters: dict = Depends(required_functionality)):
+    return {'message': f'Page: {page}, Page Size: {page_size}', 'req_parameters': req_parameters}
 
 # Optional query parameters
 @router.get('/optional/')
@@ -67,4 +70,3 @@ def create_comment(blog: blogs.BlogModel, id: int,
         'content': content,
         'comment_id': comment_id
     }
-    
