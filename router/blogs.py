@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Response, status, Query, Body, Path, Depends
 from enum import Enum
 from typing import Optional
-from models import blogs
+from models import Blogs
 
 ## write an import line that imports the blogs model from the models folder
 
@@ -48,13 +48,13 @@ def get_blog_comment(id: int, comment_id: int, valid: bool = True, username: Opt
 # Notice we have automatic type validation and automatic conversion of the request body from JSON to a python object that we declared in the models folder.
 # The parameter that inherits from BaseModel is automatically converted to a python object and is then validated against the model and if it fails, it returns a 422 error. Also, that parameter is expected to be in the request body.
 @router.post('/new/{id}', status_code=status.HTTP_201_CREATED)
-def create_blog(blog: blogs.BlogModel, id: int, version: int = 1):
+def create_blog(blog: Blogs.BlogModel, id: int, version: int = 1):
     return {'id': id, 'data': blog, 'version': version}
 
 
 # "content" is not a required parameter. If it is not provided, it will use the default value. To make it required, make it like so: content: str = Body(...) or str = Body(Elipsis)
 @router.post('/new/{id}/comment/{comment_id}', status_code=status.HTTP_201_CREATED, tags=['Comments'])
-def create_comment(blog: blogs.BlogModel, id: int, 
+def create_comment(blog: Blogs.BlogModel, id: int, 
                    comment_title: int = Query(None, 
                                            title='Comment Title', 
                                            description='Some desc for comment title',
