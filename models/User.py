@@ -1,6 +1,7 @@
 from db.database import Base
 from sqlalchemy.sql.sqltypes import Integer, String
 from sqlalchemy import Column
+from sqlalchemy.orm import relationship
 
 class DbUser(Base):
     __tablename__ = "Users"
@@ -8,5 +9,6 @@ class DbUser(Base):
     username = Column(String)
     email = Column(String)
     password = Column(String)
+    items = relationship("DbArticle", back_populates="user")
     
     

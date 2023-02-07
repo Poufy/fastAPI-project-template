@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import Optional, List, Dict
 
 # Subtype 
-from models import Images
+from models import Image
     
 class BlogModel(BaseModel):
     title: str
@@ -11,4 +11,4 @@ class BlogModel(BaseModel):
     published: Optional[bool] = False
     tags: List[str] = []
     metadata: Dict[str, str] = {'key1': 'value1'}
-    image: Optional[Images.Image] = None
+    image: Optional[Image.Image] = None

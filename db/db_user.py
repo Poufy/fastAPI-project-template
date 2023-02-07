@@ -1,10 +1,9 @@
 from sqlalchemy.orm.session import Session
-from schemas import userSchema
-from models.Users import DbUser
+from schemas.userSchema import UserBase
+from models.User import DbUser
 from util.hash import Hash
 
-
-def create_user(db: Session, request: userSchema):
+def create_user(db: Session, request: UserBase):
     new_user = DbUser(username=request.username,
                       email=request.email, password=Hash.bycrypt(request.password))
     db.add(new_user)
@@ -12,3 +11,31 @@ def create_user(db: Session, request: userSchema):
     # refresh will get the id to the new user
     db.refresh(new_user)
     return new_user
+
+def get_users(db: Session):
+    users = db.query(DbUser).all()
+    return users
+
+def get_user(db: Session, id: int):
+    user = db.query(DbUser).filter(DbUser.id == id).first();
+    return user
+
+def update_user(db: Session, id: int, request: UserBase):
+    user = db.query(DbUser).filter(DbUser.id == id).first()
+    if not user:
+        return None
+    user.update({
+        DbUser.username: request.username,
+        DbUser.email: request.email,
+        DbUser.password: Hash.bycrypt(request.password)
+    })
+    db.commit()
+    return 'updated successfully'
+
+def delete_user(db: Session, id: int):
+    user = db.query(DbUser).filter(DbUser.id == id).first()
+    if not user:
+        return None
+    db.delete(user)
+    db.commit()
+    return 'deleted successfully'
