@@ -12,5 +12,5 @@ class DbArticle(Base):
     is_published = Column(Boolean)
     user_id = Column(Integer, ForeignKey('Users.id'))
     user = relationship("DbUser", back_populates="items")
-    
+    # "items" matches the name of the attribute inside user that retrieves all related Articles to the User
     
