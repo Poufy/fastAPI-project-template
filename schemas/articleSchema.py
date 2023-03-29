@@ -1,13 +1,5 @@
 from typing import List
 from pydantic import BaseModel
-    
-# User inside ArticleResponse
-class User(BaseModel):
-    id: int
-    username: str
-    email: str
-    class Config():
-        orm_mode = True   
         
 # Data that we want to receive from the user when creating an article
 class ArticleBase(BaseModel):
@@ -16,6 +8,14 @@ class ArticleBase(BaseModel):
     is_published: bool
     creator_id: int
 
+# User inside ArticleResponse
+class User(BaseModel):
+    id: int
+    username: str
+    email: str
+    class Config():
+        orm_mode = True   
+        
 # Article inside UserResponse
 # Data that we want to send back to the user when reading an article
 class ArticleResponse(BaseModel):
